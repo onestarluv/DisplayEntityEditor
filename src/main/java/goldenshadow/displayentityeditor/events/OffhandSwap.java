@@ -118,42 +118,42 @@ public class OffhandSwap implements Listener {
             case "InventoryLRX" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), new Quaternionf(0, t.getLeftRotation().y(), t.getLeftRotation().z(), t.getLeftRotation().w()), t.getScale(), t.getRightRotation());
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, true, 0, 0, true);
                     display.setTransformation(t);
                 });
             }
             case "InventoryLRY" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), new Quaternionf(t.getLeftRotation().x(), 0, t.getLeftRotation().z(), t.getLeftRotation().w()), t.getScale(), t.getRightRotation());
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, true, 1, 0, true);
                     display.setTransformation(t);
                 });
             }
             case "InventoryLRZ" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), new Quaternionf(t.getLeftRotation().x(), t.getLeftRotation().y(), 0, t.getLeftRotation().w()), t.getScale(), t.getRightRotation());
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, true, 2, 0, true);
                     display.setTransformation(t);
                 });
             }
             case "InventoryRRX" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), t.getLeftRotation(), t.getScale(), new Quaternionf(0, t.getRightRotation().y(), t.getRightRotation().z(), t.getRightRotation().w()));
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, false, 0, 0, true);
                     display.setTransformation(t);
                 });
             }
             case "InventoryRRY" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), t.getLeftRotation(), t.getScale(), new Quaternionf(t.getRightRotation().x(), 0, t.getRightRotation().z(), t.getRightRotation().w()));
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, false, 1, 0, true);
                     display.setTransformation(t);
                 });
             }
             case "InventoryRRZ" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    t = new Transformation(t.getTranslation(), t.getLeftRotation(), t.getScale(), new Quaternionf(t.getRightRotation().x(), t.getRightRotation().y(), 0, t.getRightRotation().w()));
+                    goldenshadow.displayentityeditor.RotationSteps.change(display, t, false, 2, 0, true);
                     display.setTransformation(t);
                 });
             }

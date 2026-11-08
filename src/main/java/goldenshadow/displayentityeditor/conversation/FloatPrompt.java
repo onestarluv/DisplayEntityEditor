@@ -59,6 +59,7 @@ public class FloatPrompt extends NumericPrompt {
      */
     @Override
     protected boolean isNumberValid(@NotNull ConversationContext context, @NotNull Number input) {
+        if (!Float.isFinite(input.floatValue())) return false;
         InputData data = (InputData) context.getSessionData("data");
         assert data != null;
         if (data.inputType() == InputType.SHADOW_STRENGTH) {

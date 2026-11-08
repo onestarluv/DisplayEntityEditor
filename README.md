@@ -1,6 +1,36 @@
 # DisplayEntityEditor
 
-DisplayEntityEditor is a minecraft plugin that gives you access to a full suite of tools to edit display entities.
-It is designed to be feel similar to ArmorStandTools and provides similar tools and gui options!
+마인크래프트 **Paper 26.3 / Java 25 전용** 디스플레이 편집 플러그인입니다.
+블록·아이템·텍스트 디스플레이를 한국어 도구와 편집 메뉴로 조작합니다.
 
-You can download the plugin here: https://www.spigotmc.org/resources/display-entity-editor.110267/
+`mvn package`로 빌드한 `target/DisplayEntityEditor-2.0.4.jar`를 서버의 `plugins` 폴더에 넣고 서버를 시작하세요.
+다른 마인크래프트 버전에서는 활성화되지 않습니다.
+
+- `/디스플레이`: 편집 도구 받기. 다시 입력하면 원래 인벤토리로 돌아갑니다.
+- `/디스플레이 새로고침`: 메시지 다시 불러오기.
+- 권한: `DisplayEntityEditor.admin` (기본 관리자).
+- 좌클릭: 도구 전환, 우클릭: 값 증가, 웅크리고 우클릭: 값 감소.
+- 보조 손 키(F): 해당 값 초기화. 회전은 해당 축을 0°로 초기화합니다.
+
+기본 증감 간격은 **0.25**입니다. 이동·변환 이동은 0.25블록, 크기는 0.25,
+회전은 0.25°씩 변경됩니다. 예: 0 → 0.25 → 0.5 → 0.75 → 1.
+증감 간격 도구로 0.25~10 사이에서 0.25씩 간격을 변경할 수 있습니다.
+기존 플레이어의 간격 설정은 유지됩니다. 간격 도구로 원하는 값에 맞추세요.
+현재 값에 간격을 더하고 빼는 방식이며, 기존 위치를 격자에 강제로 맞추지는 않습니다.
+
+왼쪽·오른쪽 회전은 XYZ 오일러 각도(도 단위)를 조절하고 정상적인 쿼터니언으로 변환합니다.
+회전 수치를 별도로 저장해 반복 조작 시 각도 변환 오차가 쌓이지 않게 했습니다.
+기존 정규화 전환 항목은 호환을 위해 남아 있으나 새 각도 회전은 항상 정규화됩니다.
+이동·크기 계산은 소수점 여섯 자리로 정리하며, 화면에서는 불필요한 소수점을 생략합니다.
+
+설정은 플러그인 코드에 내장되어 있으며 `config.yml`을 생성하거나 읽지 않습니다.
+기존 서버의 `config.yml`은 삭제해도 됩니다.
+메시지도 JAR 내부에서 직접 읽으며, 외부 `messages.yml`이나 플러그인 데이터 폴더가 없어도 실행됩니다.
+
+- 채팅 입력 사용 (`alternate-text-input: false`)
+- MiniMessage 서식 사용 (`use-minimessage-format: true`)
+- 내장 한국어 메시지 사용 (`use-messages-file: false`)
+- 접속 안내 비활성화 (`send-update-message-on-join: false`)
+
+텍스트·이름 입력 시 MiniMessage 서식을 사용할 수 있습니다.
+채팅 입력 중에는 `취소`로 중단합니다.

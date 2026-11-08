@@ -101,6 +101,7 @@ $RECYCLE.BIN/
 *.lnk
 
 target/
+.maven-cache/
 
 pom.xml.tag
 pom.xml.releaseBackup

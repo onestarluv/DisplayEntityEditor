@@ -4,6 +4,8 @@ import goldenshadow.displayentityeditor.DisplayEntityEditor;
 import goldenshadow.displayentityeditor.EditingHandler;
 import goldenshadow.displayentityeditor.SelectionMode;
 import goldenshadow.displayentityeditor.Utilities;
+import goldenshadow.displayentityeditor.RotationSteps;
+import goldenshadow.displayentityeditor.StepMath;
 import goldenshadow.displayentityeditor.enums.LockSearchMode;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -30,7 +32,7 @@ public class Interact implements Listener {
 
     public Interact(EditingHandler editingHandler) {
         this.editingHandler = editingHandler;
-        df.setRoundingMode(RoundingMode.CEILING);
+        df.setRoundingMode(RoundingMode.HALF_UP);
     }
 
     /**
@@ -90,7 +92,7 @@ public class Interact implements Listener {
     private static void highlightEntity(Display display) {
         display.setGlowing(true);
         Bukkit.getScheduler().scheduleSyncDelayedTask(DisplayEntityEditor.getPlugin(), () -> display.setGlowing(false), 20L);
-        display.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, display.getLocation(), 50, 0.2, 0.2, 0.2, 0);
+        display.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, display.getLocation(), 50, 0.2, 0.2, 0.2, 0);
     }
 
     /**
@@ -102,7 +104,7 @@ public class Interact implements Listener {
     private static void cloneEntity(Display clone, Display template) {
         clone.setBrightness(template.getBrightness());
         clone.setBillboard(template.getBillboard());
-        clone.setCustomName(template.getCustomName());
+        clone.customName(template.customName());
         clone.setGlowColorOverride(template.getGlowColorOverride());
         clone.setGlowing(template.isGlowing());
         clone.setCustomNameVisible(template.isCustomNameVisible());
@@ -123,7 +125,7 @@ public class Interact implements Listener {
         }
         if (clone instanceof TextDisplay textDisplay) {
             TextDisplay templateText = (TextDisplay) template;
-            textDisplay.setText(templateText.getText());
+            textDisplay.text(templateText.text());
             textDisplay.setBackgroundColor(templateText.getBackgroundColor());
             textDisplay.setShadowed(templateText.isShadowed());
             textDisplay.setAlignment(templateText.getAlignment());
@@ -260,21 +262,7 @@ public class Interact implements Listener {
                 return;
             }
             case "InventoryToolPrecision" -> {
-                double d0 = Utilities.getToolPrecision(player);
-                if (player.isSneaking()) {
-                    if (d0 > 1) {
-                        d0 = Math.max(0.1, d0 - 1);
-                    } else {
-                        d0 = Math.max(0.1, d0 - 0.1);
-                    }
-                } else {
-                    if (d0 < 1) {
-                        d0 = Math.min(10, d0 + 0.1);
-                    } else {
-                        d0 = Math.min(10, d0 + 1);
-                    }
-                }
-                d0 = (double) Math.round(d0 * 1000) / 1000;
+                double d0 = Math.max(0.25, Math.min(10, Math.round((Utilities.getToolPrecision(player) + (player.isSneaking() ? -0.25 : 0.25)) * 4) / 4.0));
                 player.getPersistentDataContainer().set(DisplayEntityEditor.toolPrecisionKey, PersistentDataType.DOUBLE, d0);
                 updateItems(player);
                 Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("tool_precision").formatted(df.format(d0)));
@@ -368,7 +356,7 @@ public class Interact implements Listener {
             case "InventoryRotateYaw" -> {
                 if (player.isSneaking()) {
                     displays.forEach(display -> {
-                        display.setRotation((float) (display.getLocation().getYaw() - 1 * Utilities.getToolPrecision(player)), display.getLocation().getPitch());
+                        display.setRotation((float) StepMath.round(display.getLocation().getYaw() - Utilities.getToolPrecision(player)), display.getLocation().getPitch());
                         Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("yaw").formatted(df.format(display.getLocation().getYaw())));
                     });
 
@@ -376,28 +364,28 @@ public class Interact implements Listener {
                 }
 
                 displays.forEach(display -> {
-                    display.setRotation((float) (display.getLocation().getYaw() + 1 * Utilities.getToolPrecision(player)), display.getLocation().getPitch());
+                    display.setRotation((float) StepMath.round(display.getLocation().getYaw() + Utilities.getToolPrecision(player)), display.getLocation().getPitch());
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("yaw").formatted(df.format(display.getLocation().getYaw())));
                 });
             }
             case "InventoryRotatePitch" -> {
                 if (player.isSneaking()) {
                     displays.forEach(display -> {
-                        display.setRotation(display.getLocation().getYaw(), (float) (display.getLocation().getPitch() - 1 * Utilities.getToolPrecision(player)));
+                        display.setRotation(display.getLocation().getYaw(), (float) StepMath.round(display.getLocation().getPitch() - Utilities.getToolPrecision(player)));
                         Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("pitch").formatted(df.format(display.getLocation().getPitch())));
                     });
                     return;
                 }
 
                 displays.forEach(display -> {
-                    display.setRotation(display.getLocation().getYaw(), (float) (display.getLocation().getPitch() + 1 * Utilities.getToolPrecision(player)));
+                    display.setRotation(display.getLocation().getYaw(), (float) StepMath.round(display.getLocation().getPitch() + Utilities.getToolPrecision(player)));
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("pitch").formatted(df.format(display.getLocation().getPitch())));
                 });
             }
             case "InventoryMoveX" -> {
                 if (player.isSneaking()) {
                     displays.forEach(display -> {
-                        display.teleport(display.getLocation().add(-0.1 * Utilities.getToolPrecision(player), 0, 0));
+                        display.teleport(StepMath.move(display.getLocation(), -Utilities.getToolPrecision(player), 0, 0));
 
                         Utilities.sendActionbarMessage(player, "X: " + df.format(display.getLocation().getX()));
                         Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_x").formatted(df.format(display.getLocation().getX())));
@@ -407,7 +395,7 @@ public class Interact implements Listener {
                 }
 
                 displays.forEach(display -> {
-                    display.teleport(display.getLocation().add(0.1 * Utilities.getToolPrecision(player), 0, 0));
+                    display.teleport(StepMath.move(display.getLocation(), Utilities.getToolPrecision(player), 0, 0));
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_x").formatted(df.format(display.getLocation().getX())));
                 });
 
@@ -416,14 +404,14 @@ public class Interact implements Listener {
             case "InventoryMoveY" -> {
                 if (player.isSneaking()) {
                     displays.forEach(display -> {
-                        display.teleport(display.getLocation().add(0, -0.1 * Utilities.getToolPrecision(player), 0));
+                        display.teleport(StepMath.move(display.getLocation(), 0, -Utilities.getToolPrecision(player), 0));
                         Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_y").formatted(df.format(display.getLocation().getY())));
                     });
 
                     return;
                 }
                 displays.forEach(display -> {
-                    display.teleport(display.getLocation().add(0, 0.1 * Utilities.getToolPrecision(player), 0));
+                    display.teleport(StepMath.move(display.getLocation(), 0, Utilities.getToolPrecision(player), 0));
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_y").formatted(df.format(display.getLocation().getY())));
                 });
 
@@ -431,14 +419,14 @@ public class Interact implements Listener {
             case "InventoryMoveZ" -> {
                 if (player.isSneaking()) {
                     displays.forEach(display -> {
-                        display.teleport(display.getLocation().add(0, 0, -0.1 * Utilities.getToolPrecision(player)));
+                        display.teleport(StepMath.move(display.getLocation(), 0, 0, -Utilities.getToolPrecision(player)));
                         Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_z").formatted(df.format(display.getLocation().getZ())));
                     });
 
                     return;
                 }
                 displays.forEach(display -> {
-                    display.teleport(display.getLocation().add(0, 0, 0.1 * Utilities.getToolPrecision(player)));
+                    display.teleport(StepMath.move(display.getLocation(), 0, 0, Utilities.getToolPrecision(player)));
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("move_z").formatted(df.format(display.getLocation().getZ())));
                 });
 
@@ -462,9 +450,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getTranslation().add((float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0);
+                        StepMath.add(t.getTranslation(), (float) (-Utilities.getToolPrecision(player)), 0, 0);
                     } else {
-                        t.getTranslation().add((float) (0.1f * Utilities.getToolPrecision(player)), 0, 0);
+                        StepMath.add(t.getTranslation(), (float) (Utilities.getToolPrecision(player)), 0, 0);
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("translation_x").formatted(df.format(t.getTranslation().x())));
                     display.setTransformation(t);
@@ -474,9 +462,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getTranslation().add(0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0);
+                        StepMath.add(t.getTranslation(), 0, (float) (-Utilities.getToolPrecision(player)), 0);
                     } else {
-                        t.getTranslation().add(0, (float) (0.1f * Utilities.getToolPrecision(player)), 0);
+                        StepMath.add(t.getTranslation(), 0, (float) (Utilities.getToolPrecision(player)), 0);
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("translation_y").formatted(df.format(t.getTranslation().y())));
                     display.setTransformation(t);
@@ -486,9 +474,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getTranslation().add(0, 0, (float) (-0.1f * Utilities.getToolPrecision(player)));
+                        StepMath.add(t.getTranslation(), 0, 0, (float) (-Utilities.getToolPrecision(player)));
                     } else {
-                        t.getTranslation().add(0, 0, (float) (0.1f * Utilities.getToolPrecision(player)));
+                        StepMath.add(t.getTranslation(), 0, 0, (float) (Utilities.getToolPrecision(player)));
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("translation_z").formatted(df.format(t.getTranslation().z())));
                     display.setTransformation(t);
@@ -498,9 +486,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getScale().add((float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0);
+                        StepMath.add(t.getScale(), (float) (-Utilities.getToolPrecision(player)), 0, 0);
                     } else {
-                        t.getScale().add((float) (0.1f * Utilities.getToolPrecision(player)), 0, 0);
+                        StepMath.add(t.getScale(), (float) (Utilities.getToolPrecision(player)), 0, 0);
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("scale_x").formatted(df.format(t.getScale().x())));
                     display.setTransformation(t);
@@ -510,9 +498,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getScale().add(0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0);
+                        StepMath.add(t.getScale(), 0, (float) (-Utilities.getToolPrecision(player)), 0);
                     } else {
-                        t.getScale().add(0, (float) (0.1f * Utilities.getToolPrecision(player)), 0);
+                        StepMath.add(t.getScale(), 0, (float) (Utilities.getToolPrecision(player)), 0);
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("scale_y").formatted(df.format(t.getScale().y())));
                     display.setTransformation(t);
@@ -522,9 +510,9 @@ public class Interact implements Listener {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
                     if (player.isSneaking()) {
-                        t.getScale().add(0, 0, (float) (-0.1f * Utilities.getToolPrecision(player)));
+                        StepMath.add(t.getScale(), 0, 0, (float) (-Utilities.getToolPrecision(player)));
                     } else {
-                        t.getScale().add(0, 0, (float) (0.1f * Utilities.getToolPrecision(player)));
+                        StepMath.add(t.getScale(), 0, 0, (float) (Utilities.getToolPrecision(player)));
                     }
                     Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("scale_z").formatted(df.format(t.getScale().z())));
                     display.setTransformation(t);
@@ -533,97 +521,55 @@ public class Interact implements Listener {
             case "InventoryLRX" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUILRNormalize");
-                    if (player.isSneaking()) {
-                        t.getLeftRotation().add((float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0, 0);
-                    } else {
-                        t.getLeftRotation().add((float) (0.1f * Utilities.getToolPrecision(player)), 0, 0, 0);
-                    }
-                    if (b) {
-                        t.getLeftRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_x").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getLeftRotation().x())));
+                    double angle = RotationSteps.change(display, t, true, 0,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_x").formatted("", df.format(angle)));
                 });
             }
             case "InventoryLRY" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUILRNormalize");
-                    if (player.isSneaking()) {
-                        t.getLeftRotation().add(0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0);
-                    } else {
-                        t.getLeftRotation().add(0, (float) (0.1f * Utilities.getToolPrecision(player)), 0, 0);
-                    }
-                    if (b) {
-                        t.getLeftRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_y").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getLeftRotation().y())));
+                    double angle = RotationSteps.change(display, t, true, 1,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_y").formatted("", df.format(angle)));
                 });
             }
             case "InventoryLRZ" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUILRNormalize");
-                    if (player.isSneaking()) {
-                        t.getLeftRotation().add(0, 0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0);
-                    } else {
-                        t.getLeftRotation().add(0, 0, (float) (0.1f * Utilities.getToolPrecision(player)), 0);
-                    }
-                    if (b) {
-                        t.getLeftRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_z").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getLeftRotation().z())));
+                    double angle = RotationSteps.change(display, t, true, 2,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("left_rot_z").formatted("", df.format(angle)));
                 });
             }
             case "InventoryRRX" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUIRRNormalize");
-                    if (player.isSneaking()) {
-                        t.getRightRotation().add((float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0, 0);
-                    } else {
-                        t.getRightRotation().add((float) (0.1f * Utilities.getToolPrecision(player)), 0, 0, 0);
-                    }
-                    if (b) {
-                        t.getRightRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_x").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getRightRotation().x())));
+                    double angle = RotationSteps.change(display, t, false, 0,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_x").formatted("", df.format(angle)));
                 });
             }
             case "InventoryRRY" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUIRRNormalize");
-                    if (player.isSneaking()) {
-                        t.getRightRotation().add(0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0, 0);
-                    } else {
-                        t.getRightRotation().add(0, (float) (0.1f * Utilities.getToolPrecision(player)), 0, 0);
-                    }
-                    if (b) {
-                        t.getRightRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_y").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getRightRotation().y())));
+                    double angle = RotationSteps.change(display, t, false, 1,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_y").formatted("", df.format(angle)));
                 });
             }
             case "InventoryRRZ" -> {
                 displays.forEach(display -> {
                     Transformation t = display.getTransformation();
-                    boolean b = Utilities.getData(display, "GUIRRNormalize");
-                    if (player.isSneaking()) {
-                        t.getRightRotation().add(0, 0, (float) (-0.1f * Utilities.getToolPrecision(player)), 0);
-                    } else {
-                        t.getRightRotation().add(0, 0, (float) (0.1f * Utilities.getToolPrecision(player)), 0);
-                    }
-                    if (b) {
-                        t.getRightRotation().normalize();
-                    }
-                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_z").formatted((b ? DisplayEntityEditor.messageManager.getString("normalized") : ""), df.format(t.getRightRotation().z())));
+                    double angle = RotationSteps.change(display, t, false, 2,
+                            player.isSneaking() ? -Utilities.getToolPrecision(player) : Utilities.getToolPrecision(player), false);
                     display.setTransformation(t);
+                    Utilities.sendActionbarMessage(player, DisplayEntityEditor.messageManager.getString("right_rot_z").formatted("", df.format(angle)));
                 });
             }
             case "InventoryCenterBlock" -> {

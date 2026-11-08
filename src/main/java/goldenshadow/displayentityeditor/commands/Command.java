@@ -43,27 +43,25 @@ public class Command implements CommandExecutor {
                     p.sendMessage(Utilities.getInfoMessageFormat(DisplayEntityEditor.messageManager.getString("inventory_returned")));
                     return true;
                 }
-                saveInventory(p);
                 ItemStack[] array = DisplayEntityEditor.inventoryFactory.getInventoryArray(p);
+                saveInventory(p);
                 for (int i = 0; i < array.length; i++) {
                     p.getInventory().setItem(i, array[i]);
                 }
                 if (!p.getPersistentDataContainer().has(DisplayEntityEditor.toolPrecisionKey, PersistentDataType.DOUBLE)) {
-                    p.getPersistentDataContainer().set(DisplayEntityEditor.toolPrecisionKey, PersistentDataType.DOUBLE, 1d);
+                    p.getPersistentDataContainer().set(DisplayEntityEditor.toolPrecisionKey, PersistentDataType.DOUBLE, 0.25d);
                 }
                 p.sendMessage(Utilities.getInfoMessageFormat(DisplayEntityEditor.messageManager.getString("tools_received_1")));
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', DisplayEntityEditor.messageManager.getString("tools_received_2")));
                 return true;
             }
             if (args.length == 1) {
-                if (args[0].equalsIgnoreCase("reload")) {
-                    DisplayEntityEditor.getPlugin().reloadConfig();
-                    DisplayEntityEditor.alternateTextInput = DisplayEntityEditor.getPlugin().getConfig().getBoolean("alternate-text-input");
-                    DisplayEntityEditor.useMiniMessageFormat = DisplayEntityEditor.getPlugin().getConfig().getBoolean("use-minimessage-format");
+                if (args[0].equalsIgnoreCase("새로고침")) {
                     try {
                         DisplayEntityEditor.checkForMessageFile();
                     } catch (IOException e) {
                         p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("messages_reload_fail")));
+                        return true;
                     }
                     p.sendMessage(Utilities.getInfoMessageFormat(DisplayEntityEditor.messageManager.getString("config_reload")));
                     return true;
@@ -72,18 +70,18 @@ public class Command implements CommandExecutor {
 
             if (args.length > 2) {
                 if (DisplayEntityEditor.alternateTextInput) {
-                    if (args[0].equalsIgnoreCase("edit")) {
+                    if (args[0].equalsIgnoreCase("편집")) {
                         String input = collectArgsToString(args);
                         Display display = Utilities.getNearestDisplayEntity(p.getLocation(), true);
                         if (display == null) {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("name")) {
+                        if (args[1].equalsIgnoreCase("이름")) {
                             InputManager.successfulTextInput(new InputData(display, InputType.NAME, null), input, p);
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("background_color")) {
+                        if (args[1].equalsIgnoreCase("배경색")) {
                             if (display instanceof TextDisplay) {
                                 InputManager.successfulTextInput(new InputData(display, InputType.BACKGROUND_COLOR, null), input, p);
                                 return true;
@@ -91,7 +89,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("text")) {
+                        if (args[1].equalsIgnoreCase("텍스트")) {
                             if (display instanceof TextDisplay) {
                                 InputManager.successfulTextInput(new InputData(display, InputType.TEXT, null), input, p);
                                 return true;
@@ -99,7 +97,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("text_append")) {
+                        if (args[1].equalsIgnoreCase("텍스트추가")) {
                             if (display instanceof TextDisplay) {
                                 InputManager.successfulTextInput(new InputData(display, InputType.TEXT_APPEND, null), input, p);
                                 return true;
@@ -107,7 +105,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("glow_color")) {
+                        if (args[1].equalsIgnoreCase("발광색")) {
                             if (!(display instanceof TextDisplay)) {
                                 InputManager.successfulTextInput(new InputData(display, InputType.GLOW_COLOR, null), input, p);
                                 return true;
@@ -115,7 +113,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("block_state")) {
+                        if (args[1].equalsIgnoreCase("블록상태")) {
                             if (display instanceof BlockDisplay) {
                                 InputManager.successfulTextInput(new InputData(display, InputType.BLOCK_STATE, ((BlockDisplay) display).getBlock().getMaterial()), input, p);
                                 return true;
@@ -123,31 +121,31 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("view_range")) {
+                        if (args[1].equalsIgnoreCase("표시거리")) {
                             if (InputManager.isFloat(input)) {
                                 InputManager.successfulFloatInput(new InputData(display, InputType.VIEW_RANGE, null), Float.parseFloat(input), p);
                                 return true;
                             }
                         }
-                        if (args[1].equalsIgnoreCase("display_height")) {
+                        if (args[1].equalsIgnoreCase("표시높이")) {
                             if (InputManager.isFloat(input)) {
                                 InputManager.successfulFloatInput(new InputData(display, InputType.DISPLAY_HEIGHT, null), Float.parseFloat(input), p);
                                 return true;
                             }
                         }
-                        if (args[1].equalsIgnoreCase("display_width")) {
+                        if (args[1].equalsIgnoreCase("표시너비")) {
                             if (InputManager.isFloat(input)) {
                                 InputManager.successfulFloatInput(new InputData(display, InputType.DISPLAY_WIDTH, null), Float.parseFloat(input), p);
                                 return true;
                             }
                         }
-                        if (args[1].equalsIgnoreCase("shadow_radius")) {
+                        if (args[1].equalsIgnoreCase("그림자반경")) {
                             if (InputManager.isFloat(input)) {
                                 InputManager.successfulFloatInput(new InputData(display, InputType.SHADOW_RADIUS, null), Float.parseFloat(input), p);
                                 return true;
                             }
                         }
-                        if (args[1].equalsIgnoreCase("shadow_strength")) {
+                        if (args[1].equalsIgnoreCase("그림자농도")) {
                             if (InputManager.isFloat(input)) {
                                 float f = Float.parseFloat(input);
                                 if (0 <= f && f <= 1) {
@@ -158,7 +156,7 @@ public class Command implements CommandExecutor {
                                 return true;
                             }
                         }
-                        if (args[1].equalsIgnoreCase("text_opacity")) {
+                        if (args[1].equalsIgnoreCase("텍스트불투명도")) {
                             if (display instanceof TextDisplay) {
                                 if (InputManager.isByte(input)) {
                                     InputManager.successfulByteInput(new InputData(display, InputType.TEXT_OPACITY, null), Integer.parseInt(input), p);
@@ -168,7 +166,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("background_opacity")) {
+                        if (args[1].equalsIgnoreCase("배경불투명도")) {
                             if (display instanceof TextDisplay) {
                                 if (InputManager.isByte(input)) {
                                     InputManager.successfulByteInput(new InputData(display, InputType.BACKGROUND_OPACITY, null), Integer.parseInt(input), p);
@@ -178,7 +176,7 @@ public class Command implements CommandExecutor {
                             p.sendMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("generic_fail")));
                             return true;
                         }
-                        if (args[1].equalsIgnoreCase("line_width")) {
+                        if (args[1].equalsIgnoreCase("줄너비")) {
                             if (display instanceof TextDisplay) {
                                 if (InputManager.isInteger(input)) {
                                     InputManager.successfulIntegerInput(new InputData(display, InputType.LINE_WIDTH, null), Integer.parseInt(input), p);
@@ -222,6 +220,27 @@ public class Command implements CommandExecutor {
         savedInventories.remove(player.getUniqueId());
     }
 
+    public static String localizeArgument(String value) {
+        return switch (value) {
+            case "shadow_strength" -> "그림자농도";
+            case "display_width" -> "표시너비";
+            case "text_append" -> "텍스트추가";
+            case "glow_color" -> "발광색";
+            case "block_state" -> "블록상태";
+            case "view_range" -> "표시거리";
+            case "line_width" -> "줄너비";
+            case "background_color" -> "배경색";
+            case "name" -> "이름";
+            case "text_opacity" -> "텍스트불투명도";
+            case "shadow_radius" -> "그림자반경";
+            case "reload" -> "새로고침";
+            case "background_opacity" -> "배경불투명도";
+            case "display_height" -> "표시높이";
+            case "text" -> "텍스트";
+            case "edit" -> "편집";
+            default -> value;
+        };
+    }
     private static String collectArgsToString(String[] args) {
         StringBuilder s = new StringBuilder();
         for (int i = 2; i < args.length; i++) {

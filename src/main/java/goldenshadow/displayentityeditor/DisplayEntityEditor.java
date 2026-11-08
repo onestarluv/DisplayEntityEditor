@@ -19,8 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+
+
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -30,8 +30,11 @@ public final class DisplayEntityEditor extends JavaPlugin {
     public static ConversationFactory conversationFactory;
     public static InventoryFactory inventoryFactory;
     public static HashMap<UUID, Display> currentEditMap = new HashMap<>();
-    public static boolean alternateTextInput = false;
-    public static boolean useMiniMessageFormat = false;
+    // 내장 설정: 채팅 입력, MiniMessage 사용, 내장 한국어 메시지 사용.
+    public static final boolean alternateTextInput = false;
+    public static final boolean useMiniMessageFormat = true;
+    public static final boolean useMessagesFile = false;
+    public static final boolean sendUpdateMessageOnJoin = false;
     public static MiniMessage miniMessage = MiniMessage.builder()
             .tags(TagResolver.builder()
                     .resolver(StandardTags.color())
@@ -64,24 +67,26 @@ public final class DisplayEntityEditor extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-
-        getConfig().options().copyDefaults(true);
-        saveConfig();
-        alternateTextInput = getConfig().getBoolean("alternate-text-input");
-        useMiniMessageFormat = getConfig().getBoolean("use-minimessage-format");
+        if (!Bukkit.getMinecraftVersion().equals("26.3")) {
+            getLogger().severe("이 플러그인은 마인크래프트 26.3 전용입니다.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         try {
             checkForMessageFile();
-        } catch (IOException e) {
-            plugin.getLogger().severe("Failed to load messages.yml!");
+        } catch (IOException | RuntimeException e) {
+            getLogger().log(java.util.logging.Level.SEVERE, "내장 메시지를 불러오지 못해 플러그인을 비활성화합니다.", e);
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
 
         this.editingHandler = new EditingHandler();
 
         conversationFactory = new ConversationFactory(plugin);
         inventoryFactory = new InventoryFactory(new GUIItems(), new InventoryItems());
-        Objects.requireNonNull(getCommand("displayentityeditor")).setExecutor(new Command());
-        Objects.requireNonNull(getCommand("displayentityeditor")).setTabCompleter(new TabComplete());
+        Objects.requireNonNull(getCommand("디스플레이")).setExecutor(new Command());
+        Objects.requireNonNull(getCommand("디스플레이")).setTabCompleter(new TabComplete());
         Bukkit.getPluginManager().registerEvents(new Interact(editingHandler), plugin);
         Bukkit.getPluginManager().registerEvents(new OffhandSwap(editingHandler), plugin);
         Bukkit.getPluginManager().registerEvents(new InventoryClick(), plugin);
@@ -98,15 +103,9 @@ public final class DisplayEntityEditor extends JavaPlugin {
 
         new Metrics(plugin, 18672);
 
-        getVersion(v -> {
-            if (this.getDescription().getVersion().equals(v)) {
-                getLogger().info(messageManager.getString("version_check_success"));
-            } else {
-                getLogger().warning(messageManager.getString("version_check_fail"));
-            }
-        });
 
-        if (getConfig().getBoolean("use-messages-file")) {
+
+        if (useMessagesFile) {
             if (!getDescription().getVersion().equals(messageManager.getString("file_version"))) {
                 getLogger().warning(messageManager.getString("messages_file_outdated_version"));
             }
@@ -149,13 +148,6 @@ public final class DisplayEntityEditor extends JavaPlugin {
     }
 
     public static void checkForMessageFile() throws IOException {
-        File file = new File(getPlugin().getDataFolder().getAbsolutePath() + "/messages.yml");
-        if (!file.exists()) {
-            plugin.getLogger().info("Unable to find messages.yml - generating new file!");
-            InputStream ip = DisplayEntityEditor.class.getClassLoader().getResourceAsStream("messages.yml");
-            assert ip != null;
-            Files.copy(ip, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        }
         messageManager = new MessageManager();
     }
 

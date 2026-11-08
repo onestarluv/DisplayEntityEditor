@@ -1,15 +1,18 @@
 name: DisplayEntityEditor
 version: '${project.version}'
 main: goldenshadow.displayentityeditor.DisplayEntityEditor
-api-version: 1.19
+api-version: '26.3'
 authors: [_GoldenShadow]
-description: A full suite of tools to edit text, item and block display entities
+description: 텍스트·아이템·블록 디스플레이 편집 도구
 commands:
-  displayentityeditor:
+  디스플레이:
     aliases:
+      - displayentityeditor
       - dee
       - deeditor
       - detools
       - det
     permission: DisplayEntityEditor.admin
-    description: This command gives you all the tools needed to edit display entities
+    description: 디스플레이 편집 도구를 받거나 원래 인벤토리로 돌아갑니다.
+
+    permission-message: '이 명령어를 사용할 권한이 없습니다.'

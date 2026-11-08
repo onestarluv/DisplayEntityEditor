@@ -4,7 +4,7 @@ import goldenshadow.displayentityeditor.enums.InputType;
 import org.bukkit.Material;
 import org.bukkit.entity.Display;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A record class used to store data about an awaited text input

@@ -15,7 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import goldenshadow.displayentityeditor.enums.LockSearchMode;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class Utilities {
@@ -114,7 +114,7 @@ public class Utilities {
      */
     public static String getColor(Color color) {
         if (color == null) return DisplayEntityEditor.messageManager.getString("none");
-        return DisplayEntityEditor.messageManager.getString("rgb").formatted(color.getRed(), color.getBlue(), color.getGreen());
+        return DisplayEntityEditor.messageManager.getString("rgb").formatted(color.getRed(), color.getGreen(), color.getBlue());
     }
 
     /**
@@ -171,8 +171,10 @@ public class Utilities {
     }
 
     public static BaseComponent[] getCommandMessage(String commandMessage, String hint) {
+        String[] parts = commandMessage.split(" ", 2);
+        commandMessage = goldenshadow.displayentityeditor.commands.Command.localizeArgument(parts[0]) + (parts.length > 1 ? " " + parts[1] : "" );
         TextComponent click = new TextComponent(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', DisplayEntityEditor.messageManager.getString("command_message").formatted(commandMessage, hint)));
-        click.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/deeditor edit " + commandMessage));
+        click.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/디스플레이 편집 " + commandMessage));
 
         return new ComponentBuilder(click).create();
     }
@@ -229,11 +231,11 @@ public class Utilities {
 
     public static float getToolPrecision(Player p) {
         Double i = p.getPersistentDataContainer().get(DisplayEntityEditor.toolPrecisionKey,  PersistentDataType.DOUBLE);
-        return i != null ? i.floatValue() : 1;
+        return i != null && Double.isFinite(i) && i > 0 ? i.floatValue() : 0.25f;
     }
 
     public static String reduceFloatLength(String s) {
-        return s.substring(0, Math.min(s.length(), 4));
+        return new java.math.BigDecimal(s).setScale(6, java.math.RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
 }

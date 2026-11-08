@@ -376,9 +376,10 @@ public class GUIItems {
         ItemStack itemStack = new ItemStack(Material.END_CRYSTAL);
 
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("text_background_opacity_name"),
-                DisplayEntityEditor.messageManager.getList("text_background_opacity_lore"),
+                DisplayEntityEditor.messageManager.getList(current == null
+                        ? "text_background_opacity_default_lore" : "text_background_opacity_lore"),
                 "GUITextBackgroundOpacity",
-                current.getAlpha()
+                current == null ? 0 : current.getAlpha()
         );
         return itemStack;
     }

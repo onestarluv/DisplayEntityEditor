@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import goldenshadow.displayentityeditor.enums.LockSearchMode;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class EditingHandler {

@@ -65,7 +65,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("move_x_name"),
                 DisplayEntityEditor.messageManager.getList("move_lore"),
                 "InventoryMoveX",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -79,7 +79,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("move_y_name"),
                 DisplayEntityEditor.messageManager.getList("move_lore"),
                 "InventoryMoveY",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -93,7 +93,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("move_z_name"),
                 DisplayEntityEditor.messageManager.getList("move_lore"),
                 "InventoryMoveZ",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -172,7 +172,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("left_rotation_x_name"),
                 DisplayEntityEditor.messageManager.getList("left_rotation_lore"),
                 "InventoryLRX",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -186,7 +186,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("left_rotation_y_name"),
                 DisplayEntityEditor.messageManager.getList("left_rotation_lore"),
                 "InventoryLRY",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -200,7 +200,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("left_rotation_z_name"),
                 DisplayEntityEditor.messageManager.getList("left_rotation_lore"),
                 "InventoryLRZ",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -214,7 +214,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("right_rotation_x_name"),
                 DisplayEntityEditor.messageManager.getList("right_rotation_lore"),
                 "InventoryRRX",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -228,7 +228,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("right_rotation_y_name"),
                 DisplayEntityEditor.messageManager.getList("right_rotation_lore"),
                 "InventoryRRY",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -242,7 +242,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("right_rotation_z_name"),
                 DisplayEntityEditor.messageManager.getList("right_rotation_lore"),
                 "InventoryRRZ",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -252,7 +252,7 @@ public class InventoryItems {
      * @return The item
      */
     public ItemStack centerPivot() {
-        ItemStack itemStack = new ItemStack(Material.CHAIN);
+        ItemStack itemStack = new ItemStack(Material.IRON_CHAIN);
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("center_pivot_name"),
                 DisplayEntityEditor.messageManager.getList("center_pivot_lore"),
                 "InventoryCenterPivot"
@@ -269,7 +269,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("translation_x_name"),
                 DisplayEntityEditor.messageManager.getList("translation_lore"),
                 "InventoryTX",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -283,7 +283,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("translation_y_name"),
                 DisplayEntityEditor.messageManager.getList("translation_lore"),
                 "InventoryTY",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -297,7 +297,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("translation_z_name"),
                 DisplayEntityEditor.messageManager.getList("translation_lore"),
                 "InventoryTZ",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -311,7 +311,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("scale_x_name"),
                 DisplayEntityEditor.messageManager.getList("scale_lore"),
                 "InventorySX",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -325,7 +325,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("scale_y_name"),
                 DisplayEntityEditor.messageManager.getList("scale_lore"),
                 "InventorySY",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -339,7 +339,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("scale_z_name"),
                 DisplayEntityEditor.messageManager.getList("scale_lore"),
                 "InventorySZ",
-                Utilities.reduceFloatLength(Double.toString(0.1 * Utilities.getToolPrecision(p)))
+                Utilities.reduceFloatLength(Double.toString(Utilities.getToolPrecision(p)))
         );
         return itemStack;
     }
@@ -367,7 +367,7 @@ public class InventoryItems {
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("tool_precision_name"),
                 DisplayEntityEditor.messageManager.getList("tool_precision_lore"),
                 "InventoryToolPrecision",
-                Utilities.reduceFloatLength(Double.toString(precision < 1 ? 0.1f : 1f))
+                Utilities.reduceFloatLength(Double.toString(0.25f))
         );
         return itemStack;
     }
@@ -380,7 +380,7 @@ public class InventoryItems {
         ItemStack itemStack = new ItemStack(Material.RECOVERY_COMPASS);
         SelectionMode mode = Utilities.getToolSelectMode(p);
         ArrayList<String> lore = new ArrayList<>();
-        lore.addAll(DisplayEntityEditor.messageManager.getList("tool_selection_mode_lore_start"));
+        lore.addAll(DisplayEntityEditor.messageManager.getList("tool_selection_mode_lore_header"));
         lore.addAll(DisplayEntityEditor.messageManager.getList("tool_selection_mode_description_" + mode.id()));
         lore.addAll(DisplayEntityEditor.messageManager.getList("tool_selection_mode_lore_end"));
         Utilities.setMeta(itemStack, DisplayEntityEditor.messageManager.getString("tool_selection_mode_name"),

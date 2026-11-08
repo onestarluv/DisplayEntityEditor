@@ -22,9 +22,9 @@ public class TabComplete implements TabCompleter {
         List<String> result = new ArrayList<>();
         if (args.length == 1) {
             if (DisplayEntityEditor.alternateTextInput) {
-                arguments = new ArrayList<>(List.of("reload", "edit"));
+                arguments = new ArrayList<>(List.of("새로고침", "편집"));
             } else {
-                arguments = new ArrayList<>(List.of("reload"));
+                arguments = new ArrayList<>(List.of("새로고침"));
             }
 
             for (String a : arguments) {
@@ -35,8 +35,8 @@ public class TabComplete implements TabCompleter {
         }
         if (args.length == 2) {
             if (DisplayEntityEditor.alternateTextInput) {
-                if (args[0].equalsIgnoreCase("edit")) {
-                    arguments = new ArrayList<>(Arrays.asList("name", "view_range", "display_height", "display_width", "shadow_radius", "shadow_strength", "text_opacity", "line_width", "background_opacity", "background_color", "text", "text_append", "glow_color", "block_state"));
+                if (args[0].equalsIgnoreCase("편집")) {
+                    arguments = new ArrayList<>(Arrays.asList("이름", "표시거리", "표시높이", "표시너비", "그림자반경", "그림자농도", "텍스트불투명도", "줄너비", "배경불투명도", "배경색", "텍스트", "텍스트추가", "발광색", "블록상태"));
                 }
             }
             else arguments.clear();
