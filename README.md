@@ -1,10 +1,12 @@
-# DisplayEntityEditor
+# Kokonut_Displayentity
 
 마인크래프트 **Paper 26.3 / Java 25 전용** 디스플레이 편집 플러그인입니다.
 블록·아이템·텍스트 디스플레이를 한국어 도구와 편집 메뉴로 조작합니다.
 
-`mvn package`로 빌드한 `target/DisplayEntityEditor-2.0.4.jar`를 서버의 `plugins` 폴더에 넣고 서버를 시작하세요.
+`mvn package`로 빌드한 `target/Kokonut_Displayentity-cbt-1.0.jar`를 서버의 `plugins` 폴더에 넣고 서버를 시작하세요. `core/plugin`에도 자동 수집됩니다.
 다른 마인크래프트 버전에서는 활성화되지 않습니다.
+
+플러그인 ID도 `Kokonut_Displayentity`입니다. 작성자·설명·사이트는 Core와 같은 `pingpong`·`에고버스 플러그인`·`https://wiki.egoverse.kr`로 통일했습니다. 기존 `DisplayEntityEditor` 이름은 `provides` 별칭으로 유지합니다. 기존 권한과 도구·엔티티의 `displayentityeditor` 저장 키도 유지합니다. 예전 데이터 폴더는 첫 로드 때 새 이름으로 이전하며 두 폴더에 모두 자료가 있으면 덮어쓰지 않고 오류를 알립니다. 교체할 때 기존 `DisplayEntityEditor-*.jar`를 함께 설치하지 마세요.
 
 - `/디스플레이`: 편집 도구 받기. 다시 입력하면 원래 인벤토리로 돌아갑니다.
 - `/디스플레이 새로고침`: 메시지 다시 불러오기.

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>goldenshadow</groupId>
-    <artifactId>DisplayEntityEditor</artifactId>
-    <version>2.0.4</version>
+    <artifactId>Kokonut_Displayentity</artifactId>
+    <version>cbt-1.0</version>
     <packaging>jar</packaging>
 
-    <name>DisplayEntityEditor</name>
+    <name>Kokonut_Displayentity</name>
 
     <description>텍스트·아이템·블록 디스플레이 편집 도구</description>
     <properties>

@@ -1,9 +1,12 @@
-name: DisplayEntityEditor
+name: Kokonut_Displayentity
+provides: [DisplayEntityEditor]
 version: '${project.version}'
 main: goldenshadow.displayentityeditor.DisplayEntityEditor
 api-version: '26.3'
-authors: [_GoldenShadow]
-description: 텍스트·아이템·블록 디스플레이 편집 도구
+author: pingpong
+website: https://wiki.egoverse.kr
+load: POSTWORLD
+description: 에고버스 플러그인
 commands:
   디스플레이:
     aliases:

@@ -61,6 +61,16 @@ public final class DisplayEntityEditor extends JavaPlugin {
 
     private EditingHandler editingHandler;
 
+    @Override public void onLoad() {
+        try { LegacyPluginData.migrate(getDataFolder().toPath(), "DisplayEntityEditor"); }
+        catch (IOException failure) { throw new IllegalStateException("기존 디스플레이 플러그인 데이터 이전 실패", failure); }
+    }
+
+    /** Keep existing tool and entity tags readable after renaming the plugin. */
+    public static NamespacedKey legacyKey(String key) {
+        return Objects.requireNonNull(NamespacedKey.fromString("displayentityeditor:" + key.toLowerCase(Locale.ROOT)));
+    }
+
     /**
      * Used for when the plugin starts up
      */
@@ -94,12 +104,12 @@ public final class DisplayEntityEditor extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerLeave(), plugin);
         
-        toolSelectionModeKey = new NamespacedKey(plugin, "toolSelectionMode");
-        toolSelectionRangeKey = new NamespacedKey(plugin, "toolSelectionRange");
-        toolSelectionMultipleKey = new NamespacedKey(plugin, "toolSelectionMultiple");
-        toolSelectionSearchModeKey = new NamespacedKey(plugin, "toolSelectionSearchMode");
-        toolPrecisionKey = new NamespacedKey(plugin, "toolPrecision");
-        toolKey = new NamespacedKey(plugin, "tool");
+        toolSelectionModeKey = legacyKey("toolSelectionMode");
+        toolSelectionRangeKey = legacyKey("toolSelectionRange");
+        toolSelectionMultipleKey = legacyKey("toolSelectionMultiple");
+        toolSelectionSearchModeKey = legacyKey("toolSelectionSearchMode");
+        toolPrecisionKey = legacyKey("toolPrecision");
+        toolKey = legacyKey("tool");
 
         new Metrics(plugin, 18672);
 

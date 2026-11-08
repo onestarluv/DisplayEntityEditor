@@ -93,7 +93,7 @@ public class Utilities {
      * @implNote Yes, I am aware that PersistentDataType.BOOLEAN exists, but I was getting NoSuchField exceptions, so I chose the path of least resistance
      */
     public static void setData(Display entity, String dataKey, boolean dataValue) {
-        entity.getPersistentDataContainer().set(new NamespacedKey(DisplayEntityEditor.getPlugin(), dataKey), PersistentDataType.STRING, Boolean.toString(dataValue));
+        entity.getPersistentDataContainer().set(DisplayEntityEditor.legacyKey(dataKey), PersistentDataType.STRING, Boolean.toString(dataValue));
     }
 
     /**
@@ -103,7 +103,7 @@ public class Utilities {
      * @implNote Yes, I am aware that PersistentDataType.BOOLEAN exists, but I was getting NoSuchField exceptions, so I chose the path of least resistance
      */
     public static boolean getData(Display entity, String dataKey) {
-        String b = entity.getPersistentDataContainer().get(new NamespacedKey(DisplayEntityEditor.getPlugin(), dataKey), PersistentDataType.STRING);
+        String b = entity.getPersistentDataContainer().get(DisplayEntityEditor.legacyKey(dataKey), PersistentDataType.STRING);
         return b == null || b.equals("true");
     }
 

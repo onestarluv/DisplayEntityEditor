@@ -14,7 +14,7 @@ public final class RotationSteps {
     public static double change(Display display, Transformation transform, boolean left,
                                 int axis, double step, boolean reset) {
         Quaternionf rotation = left ? transform.getLeftRotation() : transform.getRightRotation();
-        NamespacedKey key = new NamespacedKey(DisplayEntityEditor.getPlugin(), left ? "left_angles" : "right_angles");
+        NamespacedKey key = DisplayEntityEditor.legacyKey(left ? "left_angles" : "right_angles");
         byte[] stored = display.getPersistentDataContainer().get(key, PersistentDataType.BYTE_ARRAY);
         double[] angles = null;
         if (stored != null && stored.length == 24) {
