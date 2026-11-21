@@ -12,7 +12,6 @@ import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,10 +26,9 @@ import java.util.function.Consumer;
 public final class DisplayEntityEditor extends JavaPlugin {
 
     private static DisplayEntityEditor plugin;
-    public static ConversationFactory conversationFactory;
     public static InventoryFactory inventoryFactory;
     public static HashMap<UUID, Display> currentEditMap = new HashMap<>();
-    // 내장 설정: 채팅 입력, MiniMessage 사용, 내장 한국어 메시지 사용.
+    // 내장 설정: 다이얼로그 입력(alternateTextInput=true면 명령어 입력), MiniMessage 사용, 내장 한국어 메시지 사용.
     public static final boolean alternateTextInput = false;
     public static final boolean useMiniMessageFormat = true;
     public static final boolean useMessagesFile = false;
@@ -93,7 +91,6 @@ public final class DisplayEntityEditor extends JavaPlugin {
 
         this.editingHandler = new EditingHandler();
 
-        conversationFactory = new ConversationFactory(plugin);
         inventoryFactory = new InventoryFactory(new GUIItems(), new InventoryItems());
         Objects.requireNonNull(getCommand("디스플레이")).setExecutor(new Command());
         Objects.requireNonNull(getCommand("디스플레이")).setTabCompleter(new TabComplete());

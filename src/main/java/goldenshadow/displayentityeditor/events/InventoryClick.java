@@ -45,9 +45,9 @@ public class InventoryClick implements Listener {
                                         }
                                     } else {
                                         if (DisplayEntityEditor.useMiniMessageFormat) {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("name_hint_mm"), new InputData(entity, InputType.NAME, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("name_hint_mm"), new InputData(entity, InputType.NAME, null));
                                         } else {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("name_hint"), new InputData(entity, InputType.NAME, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("name_hint"), new InputData(entity, InputType.NAME, null));
                                         }
                                     }
                                 } else {
@@ -81,7 +81,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("glow_color <빨강, 초록, 파랑>", DisplayEntityEditor.messageManager.getString("generic_color_command_hint")));
                                     } else {
-                                        InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("generic_color_hint"), new InputData(entity, InputType.GLOW_COLOR, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_color_hint"), new InputData(entity, InputType.GLOW_COLOR, null));
                                     }
                                 }
                             }
@@ -106,7 +106,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("view_range <값>", ""));
                                     } else {
-                                        InputManager.createFloatInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.VIEW_RANGE, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.VIEW_RANGE, null));
                                     }
                                 }
                             }
@@ -117,7 +117,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("display_width <값>",""));
                                     } else {
-                                        InputManager.createFloatInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.DISPLAY_WIDTH, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.DISPLAY_WIDTH, null));
                                     }
                                 }
                             }
@@ -128,7 +128,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("display_height <값>", ""));
                                     } else {
-                                        InputManager.createFloatInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.DISPLAY_HEIGHT, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.DISPLAY_HEIGHT, null));
                                     }
                                 }
                             }
@@ -159,7 +159,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("shadow_radius <값>", ""));
                                     } else {
-                                        InputManager.createFloatInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.SHADOW_RADIUS, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.SHADOW_RADIUS, null));
                                     }
                                 }
                             }
@@ -170,7 +170,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("shadow_strength <값>", DisplayEntityEditor.messageManager.getString("shadow_strength_command_hint")));
                                     } else {
-                                        InputManager.createFloatInput(player, DisplayEntityEditor.messageManager.getString("shadow_strength_hint"), new InputData(entity, InputType.SHADOW_STRENGTH, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("shadow_strength_hint"), new InputData(entity, InputType.SHADOW_STRENGTH, null));
                                     }
                                 }
                             }
@@ -289,7 +289,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("block_state <블록상태>", DisplayEntityEditor.messageManager.getString("block_state_command_hint")));
                                     } else {
-                                        InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("block_state_hint"), new InputData(entity, InputType.BLOCK_STATE, ((BlockDisplay) entity).getBlock().getMaterial()));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("block_state_hint"), new InputData(entity, InputType.BLOCK_STATE, ((BlockDisplay) entity).getBlock().getMaterial()));
                                     }
 
                                     player.closeInventory();
@@ -307,7 +307,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("text_opacity <값>", DisplayEntityEditor.messageManager.getString("opacity_command_hint")));
                                     } else {
-                                        InputManager.createByteInput(player, DisplayEntityEditor.messageManager.getString("opacity_hint"), new InputData(entity, InputType.TEXT_OPACITY, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("opacity_hint"), new InputData(entity, InputType.TEXT_OPACITY, null));
                                     }
                                 }
                             }
@@ -318,7 +318,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("line_width <값>", ""));
                                     } else {
-                                        InputManager.createIntegerInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.LINE_WIDTH, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_hint"), new InputData(entity, InputType.LINE_WIDTH, null));
                                     }
                                 }
                             }
@@ -353,7 +353,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("background_color <빨강, 초록, 파랑>", DisplayEntityEditor.messageManager.getString("generic_color_command_hint")));
                                     } else {
-                                        InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("generic_color_hint"), new InputData(entity, InputType.BACKGROUND_COLOR, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("generic_color_hint"), new InputData(entity, InputType.BACKGROUND_COLOR, null));
                                     }
                                 }
                             }
@@ -364,7 +364,7 @@ public class InventoryClick implements Listener {
                                     if (DisplayEntityEditor.alternateTextInput) {
                                         player.spigot().sendMessage(Utilities.getCommandMessage("background_opacity <값>", DisplayEntityEditor.messageManager.getString("opacity_command_hint")));
                                     } else {
-                                        InputManager.createByteInput(player, DisplayEntityEditor.messageManager.getString("opacity_hint"), new InputData(entity, InputType.BACKGROUND_OPACITY, null));
+                                        InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("opacity_hint"), new InputData(entity, InputType.BACKGROUND_OPACITY, null));
                                     }
                                 }
                             }
@@ -392,10 +392,10 @@ public class InventoryClick implements Listener {
                                         }
                                     } else {
                                         if (DisplayEntityEditor.useMiniMessageFormat) {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("text_hint_mm"), new InputData(entity, InputType.TEXT, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("text_hint_mm"), new InputData(entity, InputType.TEXT, null));
                                             player.spigot().sendMessage(Utilities.getClipboardMessage("text_clipboard_hint", textDisplay.getText()));
                                         } else {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("text_hint"), new InputData(entity, InputType.TEXT, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("text_hint"), new InputData(entity, InputType.TEXT, null));
                                             player.spigot().sendMessage(Utilities.getClipboardMessage("text_clipboard_hint", textDisplay.getText()));
                                         }
                                     }
@@ -411,9 +411,9 @@ public class InventoryClick implements Listener {
                                         }
                                     } else {
                                         if (DisplayEntityEditor.useMiniMessageFormat) {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("text_append_hint_mm"), new InputData(entity, InputType.TEXT_APPEND, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("text_append_hint_mm"), new InputData(entity, InputType.TEXT_APPEND, null));
                                         } else {
-                                            InputManager.createTextInput(player, DisplayEntityEditor.messageManager.getString("text_append_hint"), new InputData(entity, InputType.TEXT_APPEND, null));
+                                            InputManager.openInput(player, DisplayEntityEditor.messageManager.getString("text_append_hint"), new InputData(entity, InputType.TEXT_APPEND, null));
                                         }
                                     }
                                 }
