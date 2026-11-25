@@ -6,6 +6,7 @@ api-version: '26.3'
 author: pingpong
 website: https://wiki.egoverse.kr
 load: POSTWORLD
+softdepend: [Nexo]
 description: 에고버스 플러그인
 commands:
   디스플레이:

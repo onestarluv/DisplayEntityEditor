@@ -70,10 +70,8 @@ public class InputManager {
                     String raw = Objects.requireNonNullElse(response.getText(KEY), "");
                     submit(player, hint, data, raw);
                 }), once)).build();
-        ActionButton cancel = ActionButton.builder(Component.text("취소")).width(100)
-                .action(DialogAction.customClick((response, audience) -> onMain(() -> {
-                    if (player.isOnline()) player.closeDialog();
-                }), once)).build();
+        // 취소는 서버가 할 일이 없으므로 동작 없이 닫기만 한다.
+        ActionButton cancel = ActionButton.builder(Component.text("취소")).width(100).build();
 
         List<DialogBody> body = new ArrayList<>();
         body.add(DialogBody.plainMessage(AMPERSAND.deserialize(hint), 300));
@@ -89,7 +87,9 @@ public class InputManager {
         player.showDialog(Dialog.create(builder -> builder.empty()
                 .base(DialogBase.builder(Component.text(data.inputType().label() + " 설정"))
                         .canCloseWithEscape(true).pause(false)
-                        .afterAction(DialogBase.DialogAfterAction.WAIT_FOR_RESPONSE)
+                        // 버튼을 누르면 클라이언트가 바로 닫는다(서버 응답 대기 화면 없음).
+                        // 검증에 실패하면 submit()이 오류와 함께 새로 연다.
+                        .afterAction(DialogBase.DialogAfterAction.CLOSE)
                         .body(body)
                         .inputs(List.of(input.build()))
                         .build())
@@ -99,7 +99,6 @@ public class InputManager {
     /** 검증 후 적용. 검증에 실패하면 입력한 값을 그대로 둔 채 다이얼로그를 다시 연다. */
     private static void submit(Player player, String hint, InputData data, String raw) {
         if (!data.entity().isValid()) {
-            player.closeDialog();
             player.sendRawMessage(Utilities.getErrorMessageFormat(DisplayEntityEditor.messageManager.getString("input_entity_gone")));
             return;
         }
@@ -108,7 +107,6 @@ public class InputManager {
             show(player, hint, data, raw, error);
             return;
         }
-        player.closeDialog();
         String value = raw.strip();
         switch (kindOf(data.inputType())) {
             case INTEGER -> successfulIntegerInput(data, Integer.parseInt(value), player);

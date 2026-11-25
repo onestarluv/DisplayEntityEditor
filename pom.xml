@@ -15,6 +15,8 @@
     <properties>
         <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 서랍장 디스플레이용 Nexo API (컴파일 전용). 다른 경로면 -Dnexo.jar=... -->
+        <nexo.jar>D:/egoverse/home1/plugins/nexo-1.29.1.jar</nexo.jar>
     </properties>
 
     <build>
@@ -114,6 +116,13 @@
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.nexomc</groupId>
+            <artifactId>nexo</artifactId>
+            <version>1.29.1</version>
+            <scope>system</scope>
+            <systemPath>${nexo.jar}</systemPath>
         </dependency>
     </dependencies>
 </project>

@@ -100,7 +100,11 @@ public final class DisplayEntityEditor extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new InventoryClose(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), plugin);
         Bukkit.getPluginManager().registerEvents(new PlayerLeave(), plugin);
-        
+        if (Bukkit.getPluginManager().isPluginEnabled("Nexo")) {
+            // 선반 가구 보관함 1~3번 칸을 선반 칸에 디스플레이로 표시
+            Bukkit.getPluginManager().registerEvents(new goldenshadow.displayentityeditor.furniture.ShelfDisplays(plugin), plugin);
+        }
+
         toolSelectionModeKey = legacyKey("toolSelectionMode");
         toolSelectionRangeKey = legacyKey("toolSelectionRange");
         toolSelectionMultipleKey = legacyKey("toolSelectionMultiple");
